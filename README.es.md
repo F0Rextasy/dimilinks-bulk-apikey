@@ -11,7 +11,7 @@
 
 # dimilinks-bulk-apikey
 
-**Crea cuentas de DimiLinks en masa con claves API generadas automáticamente — inferencia compatible con OpenAI + conector 9Router.**
+**Crea cuentas de DimiLinks en masa con claves API autogeneradas — inferencia compatible con OpenAI + conector 9Router.**
 
 [![Node](https://img.shields.io/badge/Node-%E2%89%A518-3DA639?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org)
 [![Dependencies](https://img.shields.io/badge/dependencies-0-blue?style=for-the-badge)](#)
@@ -20,7 +20,7 @@
 [![9Router](https://img.shields.io/badge/9Router-connector-8B5CF6?style=for-the-badge)](#-connect-to-9router)
 [![X](https://img.shields.io/badge/X-%40bigbullapp-000000?style=for-the-badge&logo=x&logoColor=white)](https://x.com/bigbullapp)
 
-[🛠 Inicio rápido](#-quick-start) · [🎁 Nivel gratuito](#-free-tier--how-much-you-get) · [🤖 Modelos](#-models--all-35-of-them) · [🧪 Usar la API](#-how-to-use-the-api) · [✅ Verificado](#-verified-working--every-key-is-tested) · [🧭 Cómo funciona](#-how-it-works) · [🔌 9Router](#-connect-to-9router) · [⚙️ Opciones](#️-cli-options) · [🛰️ Proxies](#️-behind-a-proxy) · [🐞 Problemas](#-issues)
+[🛠 Inicio rápido](#-quick-start) · [🎁 Nivel gratuito](#-free-tier--how-much-you-get) · [🤖 Modelos](#-models--all-35-of-them) · [🧪 Usa la API](#-how-to-use-the-api) · [✅ Verificado](#-verified-working--every-key-is-tested) · [🧭 Cómo funciona](#-how-it-works) · [🔌 9Router](#-connect-to-9router) · [⚙️ Opciones](#️-cli-options) · [🛰️ Proxies](#️-behind-a-proxy) · [🐞 Problemas](#-issues)
 
 </div>
 
@@ -80,22 +80,22 @@ print(c.chat.completions.create(model="gpt-6-sol",
       messages=[{"role":"user","content":"hi"}]).choices[0].message.content)
 ```
 
-El grupo se vincula a la clave en el momento de la creación — una clave creada en `Open ai 特价` sirve los canales de ese grupo; los valores predeterminados de `--group`/`--alt-groups` del CLI apuntan a la familia funcional.
+El grupo se vincula a la clave en el momento de la creación — una clave creada en `Open ai 特价` sirve los canales de ese grupo; los valores predeterminados de `--group`/`--alt-groups` de la CLI apuntan a la familia funcional.
 
 ## 🛠 Inicio rápido
 
 ```bash
 cd dimilinks-bulk-apikey
-printf 'socks5://host:port\n' > proxies.txt
+printf 'socks5://host:port\n' > proxies.txt   # optional — without it the tool runs direct
 node src/launcher.js        # interactive: mint / verify / screen / settings
 # or: node src/cli.js --count 30    (one account per key, check-in runs first)
 ```
 
-Una clave se escribe en `keys.txt` **solo** después de que `/v1/chat/completions` responda 200 con contenido real; `accounts.json` conserva usuario / correo electrónico / quotaStart → quotaAfterCheckin / grupo.
+Una clave se escribe en `keys.txt` **solo** después de que `/v1/chat/completions` responda 200 con contenido real; `accounts.json` conserva username / e-mail / quotaStart → quotaAfterCheckin / group.
 
 ### 🖱️ El lanzador
 
-El lanzador pide la lista de proxies y la cantidad, las recuerda y ejecuta el CLI — crear, verificar, cribar salidas, ajustes, ayuda, Conectar a 9Router.
+El lanzador pide la lista de proxies y la cantidad, las recuerda y ejecuta la CLI — crear, verificar, probar salidas, ajustes, ayuda, Conectar a 9Router.
 
 ## ✅ Verificado y funcional — cada clave se prueba
 
@@ -103,7 +103,7 @@ El lanzador pide la lista de proxies y la cantidad, las recuerda y ejecuta el CL
 | --- | --- |
 | `GET /api/status` | **200** — registro activado, verificación por correo activada, captcha desactivado, check-in activado |
 | `POST /api/user/checkin` | **200** — el saldo pasa de 5.000 a 15k–104k (el crédito que importa) |
-| `POST /api/token/` (+ revelar) en `Open ai 特价` | **200** — el material de la clave se devuelve una vez (los grupos hermanos capturan los intentos con token vacío) |
+| `POST /api/token/` (+ reveal) en `Open ai 特价` | **200** — el material de la clave se devuelve una vez (los grupos hermanos capturan los intentos con token vacío) |
 | `POST /v1/chat/completions` (`gpt-6-sol`) — para **cada** clave antes de escribirse | **200** con contenido real — **100/100 claves** |
 | reverificación independiente (salida nueva, muestra) | **3/3** claves `GET /v1/models` 200 + completion 200 |
 | una clave que falla su comprobación de chat | nunca se escribe — la cuenta permanece en `accounts.json` |
@@ -126,16 +126,16 @@ inbox (one address per account)                                  a fresh address
 
 | Paso | Llamada | Notas |
 | --- | --- | --- |
-| estado | `GET /api/status` | puertas de registro/correo/check-in (captcha desactivado) |
+| status | `GET /api/status` | puertas de registro/correo/check-in (captcha desactivado) |
 | buzón | Emailnator `POST /api/generate-email` | Mailtrap alcanzó su límite de flota de 300 buzones; gmail funciona en todas partes |
 | enviar código | `GET /api/verification?email=…` | código de 6 caracteres desde el buzón |
-| registrar | `POST /api/user/register` | correo electrónico + código + contraseña |
+| registrar | `POST /api/user/register` | correo + código + contraseña |
 | iniciar sesión | `POST /api/user/login` | token de sesión |
-| **check-in** | `POST /api/user/checkin` | el bono diario — este es el verdadero nivel gratuito del panel |
-| clave | `POST /api/token/` en `Open ai 特价` (respaldo: hermanos pro) | las respuestas vacías en el grupo principal recaen en los hermanos |
+| **check-in** | `POST /api/user/checkin` | el bono diario — este es el nivel gratuito real del panel |
+| clave | `POST /api/token/` en `Open ai 特价` (respaldo: hermanos pro) | las respuestas vacías en el grupo principal pasan a los hermanos |
 | prueba | `POST /v1/chat/completions` `gpt-6-sol` | 200 con contenido = la clave está activa |
 
-## ⚙️ Opciones del CLI
+## ⚙️ Opciones de la CLI
 
 ```bash
 node src/cli.js --count N        # mint N keys (check-in + chat gate per account)
@@ -153,20 +153,24 @@ node src/cli.js --help
 
 ## 🛰️ Detrás de un proxy
 
-**Obligatorio — sin respaldo de conexión directa.** Cada solicitud sale a través de una salida; el registro tiene límite de velocidad en el panel (`register refused` bajo ráfagas — el CLI reintenta con la siguiente salida).
+**Opcional — recomendado a escala (límites por IP, bloqueos).** La herramienta también funciona sin proxy.
+
+- **Con un grupo:** pasa `--pool <file>` (o define `DIMILINKS_PROXIES`) y cada solicitud pasa por una salida de esa lista — una línea muerta hace fallar ese intento y la herramienta pasa a la siguiente (fail-closed mientras se proporciona un grupo; el grupo se vuelve a sondear al usarse).
+- **Sin un grupo:** la CLI imprime `running WITHOUT a proxy (direct)` y se conecta directamente. Nada del registro, check-in, creación de claves o verificación cambia — solo desde dónde salen los paquetes.
+- Ejecuta `--screen` en cualquiera de los dos modos: prueba las salidas que tengas (o la ruta directa) contra el proveedor antes de una ejecución real.
 
 ## 📄 Archivos
 
 | Ruta | Contenido |
 | --- | --- |
 | `keys.txt` | una clave verificada en vivo por línea — ignorada por git |
-| `accounts.json` | usuario / correo electrónico / quotaStart / quotaAfterCheckin / grupo |
+| `accounts.json` | username / e-mail / quotaStart / quotaAfterCheckin / group |
 | `proxies.txt` | tus salidas — ignorado por git |
 | `outputs/` | registros de ejecución — ignorados por git |
 
 ## 🔌 Conectar a 9Router
 
-[9Router](https://9router.com) es un enrutador autoalojado compatible con OpenAI:
+[9Router](https://9router.com) es un router autoalojado y compatible con OpenAI:
 
 ```bash
 node src/connect-9router.js --base http://localhost:20128 --password 123456

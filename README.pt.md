@@ -86,7 +86,7 @@ O grupo é vinculado à chave no momento da criação — uma chave criada em `O
 
 ```bash
 cd dimilinks-bulk-apikey
-printf 'socks5://host:port\n' > proxies.txt
+printf 'socks5://host:port\n' > proxies.txt   # optional — without it the tool runs direct
 node src/launcher.js        # interactive: mint / verify / screen / settings
 # or: node src/cli.js --count 30    (one account per key, check-in runs first)
 ```
@@ -95,7 +95,7 @@ Uma chave é gravada em `keys.txt` **somente** depois que `/v1/chat/completions`
 
 ### 🖱️ O launcher
 
-O launcher pede a lista de proxies e a contagem, memoriza-os e executa a CLI — mint, verify, screen exits, settings, help, Connect to 9Router.
+O launcher pede a lista de proxies e a quantidade, memoriza-os e executa a CLI — mint, verify, screen exits, settings, help, Connect to 9Router.
 
 ## ✅ Verificado e funcionando — toda chave é testada
 
@@ -124,14 +124,14 @@ inbox (one address per account)                                  a fresh address
    └─▶ live proof: POST https://dimilinks.com/v1/chat/completions → real content = the key is live
 ```
 
-| Etapa | Chamada | Notas |
+| Etapa | Chamada | Observações |
 | --- | --- | --- |
 | status | `GET /api/status` | gates de registro/e-mail/check-in (captcha desativado) |
-| caixa de correio | Emailnator `POST /api/generate-email` | Mailtrap atingiu seu limite de frota de 300 caixas; gmail funciona em todos os lugares |
+| caixa de correio | Emailnator `POST /api/generate-email` | Mailtrap atingiu seu limite de 300 caixas; gmail funciona em todos os lugares |
 | enviar código | `GET /api/verification?email=…` | código de 6 caracteres da caixa de entrada |
 | registrar | `POST /api/user/register` | e-mail + código + senha |
 | login | `POST /api/user/login` | token de sessão |
-| **check-in** | `POST /api/user/checkin` | o bônus diário — este é o verdadeiro nível gratuito do painel |
+| **check-in** | `POST /api/user/checkin` | o bônus diário — este é o nível gratuito real do painel |
 | chave | `POST /api/token/` em `Open ai 特价` (fallback: irmãos pro) | retornos vazios no grupo primário caem para os irmãos |
 | prova | `POST /v1/chat/completions` `gpt-6-sol` | 200 com conteúdo = a chave está ativa |
 
@@ -153,16 +153,20 @@ node src/cli.js --help
 
 ## 🛰️ Atrás de um proxy
 
-**Obrigatório — sem fallback de conexão direta.** Toda requisição sai por uma saída; o registro tem limite de taxa no painel (`register refused` em rajadas — a CLI tenta novamente com a próxima saída).
+**Opcional — recomendado em escala (limites por IP, banimentos).** A ferramenta funciona sem proxy também.
+
+- **Com um pool:** passe `--pool <file>` (ou defina `DIMILINKS_PROXIES`) e toda requisição passa por uma saída dessa lista — uma linha morta falha naquela tentativa e a ferramenta passa para a próxima (fail-closed enquanto um pool é fornecido; o pool é re-testado no uso).
+- **Sem um pool:** a CLI imprime `running WITHOUT a proxy (direct)` e conecta diretamente. Nada sobre cadastro, check-in, criação de chave ou verificação muda — apenas de onde os pacotes saem.
+- Execute `--screen` em qualquer um dos modos: ele testa as saídas que você tem (ou a rota direta) contra o provedor antes de uma execução real.
 
 ## 📄 Arquivos
 
 | Caminho | Conteúdo |
 | --- | --- |
-| `keys.txt` | uma chave verificada ativa por linha — ignorada pelo git |
+| `keys.txt` | uma chave verificada em produção por linha — ignorado pelo git |
 | `accounts.json` | username / e-mail / quotaStart / quotaAfterCheckin / group |
 | `proxies.txt` | suas saídas — ignorado pelo git |
-| `outputs/` | logs de execução — ignorados pelo git |
+| `outputs/` | logs de execução — ignorado pelo git |
 
 ## 🔌 Conectar ao 9Router
 
@@ -179,9 +183,9 @@ Padrões: `--prefix dimilinks`, `--base-url https://dimilinks.com/v1`, `--model 
 | | |
 | --- | --- |
 | 🏢 Provedor | **DimiLinks** — [dimilinks.com](https://dimilinks.com) |
-| 🎁 O que o provedor oferece | crédito de check-in: **+18k…+98k unidades/dia** por conta |
+| 🎁 O que o provedor dá | crédito de check-in: **+18k…+98k unidades/dia** por conta |
 | 🔑 O que uma chave oferece | uma chave em sua própria conta, criada em `Open ai 特价`, verificada por chat em `gpt-6-sol` |
-| 🌐 Formato da API | Compatível com OpenAI: `POST https://dimilinks.com/v1/chat/completions` |
+| 🌐 Formato da API | compatível com OpenAI: `POST https://dimilinks.com/v1/chat/completions` |
 | 🔒 Seus dados | apenas `dimilinks.com` e seu backend de caixa de entrada são contatados |
 
 ## 🐞 Problemas

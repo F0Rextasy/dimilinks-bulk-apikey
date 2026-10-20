@@ -20,7 +20,7 @@
 [![9Router](https://img.shields.io/badge/9Router-connector-8B5CF6?style=for-the-badge)](#-connect-to-9router)
 [![X](https://img.shields.io/badge/X-%40bigbullapp-000000?style=for-the-badge&logo=x&logoColor=white)](https://x.com/bigbullapp)
 
-[🛠 クイックスタート](#-quick-start) · [🎁 無料枠](#-free-tier--how-much-you-get) · [🤖 モデル](#-models--all-35-of-them) · [🧪 API の使い方](#-how-to-use-the-api) · [✅ 検証済み](#-verified-working--every-key-is-tested) · [🧭 仕組み](#-how-it-works) · [🔌 9Router](#-connect-to-9router) · [⚙️ オプション](#️-cli-options) · [🛰️ プロキシ](#️-behind-a-proxy) · [🐞 問題](#-issues)
+[🛠 クイックスタート](#-quick-start) · [🎁 無料枠](#-free-tier--how-much-you-get) · [🤖 モデル](#-models--all-35-of-them) · [🧪 API の使い方](#-how-to-use-the-api) · [✅ 検証済み](#-verified-working--every-key-is-tested) · [🧭 仕組み](#-how-it-works) · [🔌 9Router](#-connect-to-9router) · [⚙️ オプション](#️-cli-options) · [🛰️ プロキシ](#️-behind-a-proxy) · [🐞 問題報告](#-issues)
 
 </div>
 
@@ -32,32 +32,32 @@
 
 ---
 
-## ✨ なぜこれが存在するのか
+## ✨ これが存在する理由
 
-DimiLinks は New API ファミリーのパネルで、登録クレジットは**ごくわずか（5,000 ユニット ≈ $0.01）**であり、本当の価値は**毎日のチェックイン**にあります。アカウントは**1日あたり +18k…+98k クォータユニット**を計測しました（19 の実アカウントが初回チェックイン後に 15,307 から 103,660 の間に到達）。このパネルは**`default` グループを廃止**しており（`403 分组 default 已被弃用`）、稼働中のチャネルは**`Open ai 特价`**ファミリーに存在します。まさにこのツールがキーを作成し、ライブゲートが `gpt-6-sol` を実行する場所です。
+DimiLinks は New API ファミリーのパネルで、登録クレジットは**ごくわずか（5,000 ユニット ≈ $0.01）**であり、実際の価値は**毎日のチェックイン**にあります。計測されたアカウントは**1 日あたり +18k…+98k クォータユニット**（19 の稼働アカウントが初回チェックイン後に 15,307 から 103,660 の間に到達）でした。このパネルは**`default` グループを廃止**しており（`403 分组 default 已被弃用`）、稼働中のチャネルは **`Open ai 特价`** ファミリーに存在します — まさにこのツールがキーを作成する場所であり、ライブゲートが `gpt-6-sol` を実行する場所です。
 
 ## 🎁 無料枠 — どれだけ得られるか
 
-**このパネルではクレジットはチェックインのみです：** 新規アカウントは 5,000 ユニットで始まり、残高は毎日のチェックインで増えていきます。
+**このパネルではクレジットはチェックインのみです:** 新規アカウントは 5,000 ユニットで始まり、残高は毎日のチェックインで増えていきます。
 
 | 項目 | 値 |
 | --- | --- |
-| 登録クレジット（`quotaStart`） | **5,000** ユニット（qpu=500,000 → ≈ $0.01 — 登録クレジットはノイズと考えてください） |
-| **毎日のチェックイン** | **+18,000 … +98,000 ユニット/日**（19 アカウントで計測：quotaAfter 15,307…103,660） |
-| 稼働グループ | **`Open ai 特价`**（+ 兄弟グループ `Open ai 特价 pro`、`Open ai 特价 pro 不降智`）— `default` は `403 分组 default 已被弃用` を返します |
+| 登録クレジット（`quotaStart`） | **5,000** ユニット（qpu=500,000 → ≈ $0.01 — 登録クレジットはノイズとみなしてください） |
+| **毎日のチェックイン** | **+18,000 … +98,000 ユニット/日**（19 アカウントで計測: quotaAfter 15,307…103,660） |
+| 稼働グループ | **`Open ai 特价`**（+ 同系列の `Open ai 特价 pro`、`Open ai 特价 pro 不降智`）— `default` は `403 分组 default 已被弃用` を返します |
 | カタログ | ライブ価格表に 35 のモデルエントリ |
-| サインアップ | メール + 6 文字コード — **キャプチャなし**（`turnstile_check: false`） |
-| スケールする単位 | **1 アカウント = 1 キー**、キーが保持される前に一度チェックイン |
+| 登録 | メール + 6 文字コード — **キャプチャなし**（`turnstile_check: false`） |
+| スケールする単位 | **1 アカウント = 1 キー**、キーを保持する前に一度チェックイン |
 
-> 💡 無料枠は DimiLinks によって設定され、変更される可能性があります。最新の数値は [dimilinks.com](https://dimilinks.com) で確認してください — そしてツール自身のゲートに判断させてください：
+> 💡 無料枠は DimiLinks によって設定され、変更される可能性があります。最新の数値は [dimilinks.com](https://dimilinks.com) で確認してください — そしてツール自身のゲートに判断を委ねてください:
 
 ```bash
 node src/cli.js --verify-only     # every key in keys.txt is re-tested with a real chat call
 ```
 
-## 🤖 モデル — そのすべて 35 個
+## 🤖 モデル — 全 35 種
 
-ライブカタログには **35 のモデルエントリ**があります。検証済みのキーラインは `gpt-6-sol` で、`Open ai 特价` グループファミリーを通じてルーティングされます：
+ライブカタログには **35 のモデルエントリ**があり、検証済みのキー行は `gpt-6-sol` で、`Open ai 特价` グループファミリーを通じてルーティングされます:
 
 | モデル ID | グループ | 検証済み |
 | --- | --- | --- |
@@ -86,25 +86,25 @@ print(c.chat.completions.create(model="gpt-6-sol",
 
 ```bash
 cd dimilinks-bulk-apikey
-printf 'socks5://host:port\n' > proxies.txt
+printf 'socks5://host:port\n' > proxies.txt   # optional — without it the tool runs direct
 node src/launcher.js        # interactive: mint / verify / screen / settings
 # or: node src/cli.js --count 30    (one account per key, check-in runs first)
 ```
 
-キーは `/v1/chat/completions` が実際のコンテンツで 200 を返した**後にのみ** `keys.txt` に書き込まれます。`accounts.json` は username / e-mail / quotaStart → quotaAfterCheckin / group を保持します。
+キーは `/v1/chat/completions` が実際のコンテンツとともに 200 を返した**後にのみ** `keys.txt` に書き込まれます。`accounts.json` はユーザー名 / メール / quotaStart → quotaAfterCheckin / グループを保持します。
 
 ### 🖱️ ランチャー
 
-ランチャーはプロキシリストとカウントを要求し、それらを記憶して CLI を実行します — mint、verify、screen exits、settings、help、Connect to 9Router。
+ランチャーはプロキシリストと件数を尋ね、それらを記憶し、CLI を実行します — ミント、検証、終了のスクリーニング、設定、ヘルプ、9Router への接続。
 
-## ✅ 検証済みで動作 — すべてのキーがテストされています
+## ✅ 検証済みで動作 — すべてのキーがテストされます
 
 | チェック | 結果 |
 | --- | --- |
 | `GET /api/status` | **200** — 登録オン、メール認証オン、キャプチャオフ、チェックインオン |
 | `POST /api/user/checkin` | **200** — 残高が 5,000 から 15k–104k に移動（重要なクレジット） |
-| `Open ai 特价` での `POST /api/token/`（+ reveal） | **200** — キーマテリアルが一度返される（兄弟グループが空トークンのロールをキャッチ） |
-| `POST /v1/chat/completions`（`gpt-6-sol`）— 書き込まれる前の**すべての**キーに対して | 実際のコンテンツで **200** — **100/100 キー** |
+| `Open ai 特价` での `POST /api/token/`（+ reveal） | **200** — キーマテリアルが一度だけ返される（同系列グループが空トークンのロールを捕捉） |
+| `POST /v1/chat/completions`（`gpt-6-sol`）— 書き込まれる前の**すべての**キーに対して | 実際のコンテンツとともに **200** — **100/100 キー** |
 | 独立した再チェック（新しい出口、サンプル） | **3/3** キーが `GET /v1/models` 200 + 補完 200 |
 | チャットチェックに失敗したキー | 書き込まれない — アカウントは `accounts.json` に残る |
 
@@ -132,8 +132,8 @@ inbox (one address per account)                                  a fresh address
 | register | `POST /api/user/register` | メール + コード + パスワード |
 | login | `POST /api/user/login` | セッショントークン |
 | **check-in** | `POST /api/user/checkin` | 毎日のボーナス — これがパネルの本当の無料枠 |
-| key | `Open ai 特价` での `POST /api/token/`（フォールバック：pro 兄弟） | プライマリグループでの空の戻りは兄弟にフォールスルーする |
-| proof | `POST /v1/chat/completions` `gpt-6-sol` | コンテンツ付きの 200 = キーがライブ |
+| key | `Open ai 特价` での `POST /api/token/`（フォールバック: pro 同系列） | プライマリグループでの空の戻りは同系列にフォールスルーする |
+| proof | `POST /v1/chat/completions` `gpt-6-sol` | コンテンツとともに 200 = キーは稼働中 |
 
 ## ⚙️ CLI オプション
 
@@ -149,44 +149,48 @@ node src/cli.js --help
 | 環境変数 | デフォルト | 意味 |
 | --- | --- | --- |
 | `DIMILINKS_PROXIES` | `proxies.txt` | 出口プール、1 行につき 1 プロキシ |
-| `DIMILINKS_MODEL` | `gpt-6-sol` | ライブ検証用のモデル |
+| `DIMILINKS_MODEL` | `gpt-6-sol` | ライブ検証に使用するモデル |
 
 ## 🛰️ プロキシの背後で
 
-**必須 — 直接接続のフォールバックはありません。** すべてのリクエストは出口を通ります。登録はパネルでレート制限されています（バースト時に `register refused` — CLI は次の出口で再試行します）。
+**オプション — 大規模運用では推奨（IP ごとの制限、BAN）。** このツールはプロキシなしでも動作します。
+
+- **プールあり:** `--pool <file>` を渡す（または `DIMILINKS_PROXIES` を設定する）と、すべてのリクエストがそのリストの出口を経由します — 死んだ回線はその試行を失敗させ、ツールは次の回線に移動します（プールが提供されている間はフェイルクローズ。プールは使用時に再プローブされます）。
+- **プールなし:** CLI は `running WITHOUT a proxy (direct)` と表示し、直接接続します。登録、チェックイン、キーのミント、検証について何も変わりません — パケットが出ていく場所だけが変わります。
+- どちらのモードでも `--screen` を実行してください: 実際の実行前に、持っている出口（または直接ルート）をプロバイダーに対してテストします。
 
 ## 📄 ファイル
 
 | パス | 内容 |
 | --- | --- |
-| `keys.txt` | 1 行につき 1 つのライブ検証済みキー — git で無視 |
-| `accounts.json` | username / e-mail / quotaStart / quotaAfterCheckin / group |
-| `proxies.txt` | あなたの出口 — git で無視 |
-| `outputs/` | 実行ログ — git で無視 |
+| `keys.txt` | 1 行につき 1 つのライブ検証済みキー — git で無視される |
+| `accounts.json` | ユーザー名 / メール / quotaStart / quotaAfterCheckin / グループ |
+| `proxies.txt` | あなたの出口 — git で無視される |
+| `outputs/` | 実行ログ — git で無視される |
 
-## 🔌 9Router に接続
+## 🔌 9Router への接続
 
-[9Router](https://9router.com) はセルフホスト型の OpenAI 互換ルーターです：
+[9Router](https://9router.com) はセルフホスト型の OpenAI 互換ルーターです:
 
 ```bash
 node src/connect-9router.js --base http://localhost:20128 --password 123456
 ```
 
-デフォルト：`--prefix dimilinks`、`--base-url https://dimilinks.com/v1`、`--model gpt-6-sol`。モデルは `dimilinks/<model id>` として提供されます。
+デフォルト: `--prefix dimilinks`、`--base-url https://dimilinks.com/v1`、`--model gpt-6-sol`。モデルは `dimilinks/<model id>` として提供されます。
 
 ## 🔑 1 つのキーで得られるもの
 
 | | |
 | --- | --- |
 | 🏢 プロバイダー | **DimiLinks** — [dimilinks.com](https://dimilinks.com) |
-| 🎁 プロバイダーが提供するもの | チェックインクレジット：アカウントあたり**1日 +18k…+98k ユニット** |
+| 🎁 プロバイダーが提供するもの | チェックインクレジット: アカウントあたり **+18k…+98k ユニット/日** |
 | 🔑 1 つのキーで得られるもの | 独自のアカウント上の 1 つのキー、`Open ai 特价` で作成され、`gpt-6-sol` でチャット検証済み |
-| 🌐 API の形式 | OpenAI 互換：`POST https://dimilinks.com/v1/chat/completions` |
+| 🌐 API の形式 | OpenAI 互換: `POST https://dimilinks.com/v1/chat/completions` |
 | 🔒 あなたのデータ | `dimilinks.com` とあなたのインボックスバックエンドのみが接触される |
 
-## 🐞 問題
+## 🐞 問題報告
 
-DimiLinks がグループ、チェックイン報酬、または登録ゲートを変更した場合、ツールはそこで停止し、その旨を報告します。コマンドと正確な出力を添えて**[issue を開いてください](../../issues)**。
+DimiLinks がグループ、チェックイン報酬、または登録ゲートを変更した場合、ツールはそこで停止し、その旨を報告します。コマンドと正確な出力を添えて **[issue を作成してください](../../issues)**。
 
 ## 📄 ライセンス
 

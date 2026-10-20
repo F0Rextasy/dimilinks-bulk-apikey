@@ -34,28 +34,28 @@
 
 ## ✨ 为什么会有这个项目
 
-DimiLinks 是一个 New API 系列面板，其注册赠送额度**极少（5,000 单位 ≈ $0.01）**，真正的收益来自**每日签到**：账户实测**每天 +18k…+98k 额度单位**（19 个活跃账户首次签到后的额度落在 15,307 到 103,660 之间）。该面板**已弃用其 `default` 分组**（`403 分组 default 已被弃用`），其可用渠道位于 **`Open ai 特价`** 系列 —— 这正是本工具创建密钥的地方，也是实时验证运行 `gpt-6-sol` 的地方。
+DimiLinks 是一个 New API 系列面板，其注册赠送额度**极少（5,000 单位 ≈ $0.01）**，真正的价值在于**每日签到**：实测账户**每天 +18k…+98k 额度单位**（19 个活跃账户首次签到后的额度在 15,307 到 103,660 之间）。该面板已**弃用其 `default` 分组**（`403 分组 default 已被弃用`），其可用渠道位于 **`Open ai 特价`** 系列 —— 这正是本工具创建密钥的地方，也是实时验证运行 `gpt-6-sol` 的地方。
 
-## 🎁 免费额度 — 你能获得多少
+## 🎁 免费额度 —— 你能获得多少
 
 **该面板的额度仅靠签到获得：** 新账户初始为 5,000 单位，余额通过每日签到增长。
 
 | 项目 | 数值 |
 | --- | --- |
 | 注册赠送额度（`quotaStart`） | **5,000** 单位（qpu=500,000 → ≈ $0.01 —— 把注册赠送当作噪音即可） |
-| **每日签到** | **每天 +18,000 … +98,000 单位**（在 19 个账户上实测：quotaAfter 15,307…103,660） |
-| 可用分组 | **`Open ai 特价`**（以及同类 `Open ai 特价 pro`、`Open ai 特价 pro 不降智`）—— `default` 返回 `403 分组 default 已被弃用` |
+| **每日签到** | **+18,000 … +98,000 单位/天**（在 19 个账户上实测：quotaAfter 15,307…103,660） |
+| 可用分组 | **`Open ai 特价`**（以及同系列的 `Open ai 特价 pro`、`Open ai 特价 pro 不降智`）—— `default` 返回 `403 分组 default 已被弃用` |
 | 目录 | 实时价格表上有 35 个模型条目 |
 | 注册 | 邮箱 + 6 位验证码 —— **无验证码**（`turnstile_check: false`） |
 | 可扩展的单位 | **一个账户 = 一个密钥**，在保留密钥前先签到一次 |
 
-> 💡 免费额度由 DimiLinks 设定，可能会变化。请在 [dimilinks.com](https://dimilinks.com) 查看实时数据 —— 并让工具自身的验证来决定：
+> 💡 免费额度由 DimiLinks 设定，可能发生变化。请查看 [dimilinks.com](https://dimilinks.com) 上的实时数据 —— 并让工具自身的验证关卡来判定：
 
 ```bash
 node src/cli.js --verify-only     # every key in keys.txt is re-tested with a real chat call
 ```
 
-## 🤖 模型 — 全部 35 个
+## 🤖 模型 —— 全部 35 个
 
 实时目录包含 **35 个模型条目**；已验证的密钥线路是 `gpt-6-sol`，通过 `Open ai 特价` 分组系列路由：
 
@@ -86,7 +86,7 @@ print(c.chat.completions.create(model="gpt-6-sol",
 
 ```bash
 cd dimilinks-bulk-apikey
-printf 'socks5://host:port\n' > proxies.txt
+printf 'socks5://host:port\n' > proxies.txt   # optional — without it the tool runs direct
 node src/launcher.js        # interactive: mint / verify / screen / settings
 # or: node src/cli.js --count 30    (one account per key, check-in runs first)
 ```
@@ -95,15 +95,15 @@ node src/launcher.js        # interactive: mint / verify / screen / settings
 
 ### 🖱️ 启动器
 
-启动器会询问代理列表和数量，记住它们，并运行 CLI —— 铸造、验证、筛选出口、设置、帮助、连接到 9Router。
+启动器会询问代理列表和数量，记住它们，并运行 CLI —— 铸造、验证、检测出口、设置、帮助、连接到 9Router。
 
-## ✅ 已验证可用 — 每个密钥都经过测试
+## ✅ 已验证可用 —— 每个密钥都经过测试
 
-| 检查 | 结果 |
+| 检查项 | 结果 |
 | --- | --- |
 | `GET /api/status` | **200** —— 注册开启、邮箱验证开启、验证码关闭、签到开启 |
 | `POST /api/user/checkin` | **200** —— 余额从 5,000 变为 15k–104k（真正重要的额度） |
-| 在 `Open ai 特价` 中 `POST /api/token/`（+ 揭示） | **200** —— 密钥材料仅返回一次（同类分组会接住空 token 的情况） |
+| 在 `Open ai 特价` 中 `POST /api/token/`（+ 显示） | **200** —— 密钥材料返回一次（同系列分组会接住空 token 的情况） |
 | `POST /v1/chat/completions`（`gpt-6-sol`）—— 对**每个**密钥在写入前执行 | **200** 且带有真实内容 —— **100/100 密钥** |
 | 独立复检（全新出口，抽样） | **3/3** 密钥 `GET /v1/models` 200 + 补全 200 |
 | 未通过 chat 检查的密钥 | 永不写入 —— 账户保留在 `accounts.json` 中 |
@@ -126,13 +126,13 @@ inbox (one address per account)                                  a fresh address
 
 | 步骤 | 调用 | 说明 |
 | --- | --- | --- |
-| status | `GET /api/status` | 注册/邮箱/签到开关（验证码关闭） |
+| status | `GET /api/status` | 注册/邮箱/签到关卡（验证码关闭） |
 | mailbox | Emailnator `POST /api/generate-email` | Mailtrap 达到了 300 个收件箱的容量上限；gmail 在任何地方都可用 |
 | send code | `GET /api/verification?email=…` | 从收件箱获取 6 位验证码 |
 | register | `POST /api/user/register` | 邮箱 + 验证码 + 密码 |
 | login | `POST /api/user/login` | 会话令牌 |
 | **check-in** | `POST /api/user/checkin` | 每日奖励 —— 这是该面板真正的免费额度 |
-| key | 在 `Open ai 特价` 中 `POST /api/token/`（回退：pro 同类分组） | 主分组返回空时会落到同类分组 |
+| key | 在 `Open ai 特价` 中 `POST /api/token/`（回退：pro 同系列） | 主分组返回空时会落到同系列分组 |
 | proof | `POST /v1/chat/completions` `gpt-6-sol` | 200 且带有内容 = 密钥可用 |
 
 ## ⚙️ CLI 选项
@@ -151,15 +151,19 @@ node src/cli.js --help
 | `DIMILINKS_PROXIES` | `proxies.txt` | 出口池，每行一个代理 |
 | `DIMILINKS_MODEL` | `gpt-6-sol` | 用于实时验证的模型 |
 
-## 🛰️ 使用代理
+## 🛰️ 在代理之后
 
-**必需 —— 无直连回退。** 每个请求都通过出口发出；面板对注册有速率限制（突发时出现 `register refused` —— CLI 会用下一个出口重试）。
+**可选 —— 大规模使用时推荐（每 IP 限制、封禁）。** 本工具在没有代理的情况下也能运行。
+
+- **有代理池时：** 传入 `--pool <file>`（或设置 `DIMILINKS_PROXIES`），每个请求都通过该列表中的一个出口 —— 失效线路会使该次尝试失败，工具会转向下一个（提供代理池时采用故障关闭策略；代理池在使用时会重新探测）。
+- **无代理池时：** CLI 会打印 `running WITHOUT a proxy (direct)` 并直接连接。注册、签到、密钥铸造或验证都不会有任何变化 —— 只是数据包发出的位置不同。
+- 对任一模式运行 `--screen`：它会在真实运行前，用你拥有的出口（或直连线路）对提供商进行测试。
 
 ## 📄 文件
 
 | 路径 | 内容 |
 | --- | --- |
-| `keys.txt` | 每行一个实时验证的密钥 —— 已被 git 忽略 |
+| `keys.txt` | 每行一个实时验证过的密钥 —— 已被 git 忽略 |
 | `accounts.json` | 用户名 / 邮箱 / quotaStart / quotaAfterCheckin / 分组 |
 | `proxies.txt` | 你的出口 —— 已被 git 忽略 |
 | `outputs/` | 运行日志 —— 已被 git 忽略 |
@@ -186,11 +190,11 @@ node src/connect-9router.js --base http://localhost:20128 --password 123456
 
 ## 🐞 问题反馈
 
-如果 DimiLinks 更改了其分组、签到奖励或注册开关，工具会在此停止并说明原因。请**[提交 issue](../../issues)**，附上命令和确切输出。
+如果 DimiLinks 更改了其分组、签到奖励或注册关卡，工具会在此处停止并说明原因。请**[提交 issue](../../issues)**，附上命令和确切的输出。
 
 ## 📄 许可证
 
-MIT © 2026 —— 见 [LICENSE](LICENSE)。
+MIT © 2026 —— 参见 [LICENSE](LICENSE)。
 
 <div align="center">
 
