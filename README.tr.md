@@ -88,6 +88,7 @@ Grup, oluşturma anında anahtara bağlanır — `Open ai 特价` içinde oluşt
 cd dimilinks-bulk-apikey
 printf 'socks5://host:port\n' > proxies.txt   # optional — without it the tool runs direct
 node src/launcher.js        # interactive: mint / verify / screen / settings
+
 # or: node src/cli.js --count 30    (one account per key, check-in runs first)
 ```
 
