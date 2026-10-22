@@ -61,7 +61,7 @@ The live catalogue carries **35 model entries**; the verified key line is `gpt-6
 
 | Model ID | Group | Verified |
 | --- | --- | --- |
-| `gpt-6-sol` | `Open ai 特价` | **100/100 keys chat-200** during the mint; independent re-check **3/3** (`GET /v1/models` + real completion) |
+| `gpt-6-sol` | `Open ai 特价` | **chat-200** during the mint; independent re-check (proxy exit) (`GET /v1/models` + real completion) |
 
 ```bash
 curl https://dimilinks.com/v1/chat/completions \
@@ -104,7 +104,7 @@ The launcher asks for the proxy list and count, remembers them, and runs the CLI
 | `GET /api/status` | **200** — register on, e-mail verification on, captcha off, check-in on |
 | `POST /api/user/checkin` | **200** — balance moves from 5,000 to 15k–104k (the credit that matters) |
 | `POST /api/token/` (+ reveal) in `Open ai 特价` | **200** — key material returned once (sibling groups catch the empty-token rolls) |
-| `POST /v1/chat/completions` (`gpt-6-sol`) — for **every** key before it is written | **200** with real content — **100/100 keys** |
+| `POST /v1/chat/completions` (`gpt-6-sol`) — for **every** key before it is written | **200** with real content — **verified** |
 | independent re-check (fresh exit, sample) | **3/3** keys `GET /v1/models` 200 + completion 200 |
 | a key that fails its chat check | never written — account stays in `accounts.json` |
 

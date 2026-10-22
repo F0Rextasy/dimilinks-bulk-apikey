@@ -61,7 +61,7 @@ node src/cli.js --verify-only     # every key in keys.txt is re-tested with a re
 
 | Model ID | Group | Verified |
 | --- | --- | --- |
-| `gpt-6-sol` | `Open ai 特价` | **100/100 keys chat-200** during the mint; independent re-check **3/3** (`GET /v1/models` + real completion) |
+| `gpt-6-sol` | `Open ai 特价` | **chat-200** during the mint; independent re-check (proxy exit) (`GET /v1/models` + real completion) |
 
 ```bash
 curl https://dimilinks.com/v1/chat/completions \
