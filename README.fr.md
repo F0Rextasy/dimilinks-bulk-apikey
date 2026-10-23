@@ -21,7 +21,7 @@
 [![OmniRoute](https://img.shields.io/badge/OmniRoute-connector-8B5CF6?style=for-the-badge)](#-connect-to-omniroute)
 [![X](https://img.shields.io/badge/X-%40bigbullapp-000000?style=for-the-badge&logo=x&logoColor=white)](https://x.com/bigbullapp)
 
-[🛠 Démarrage rapide](#-quick-start) · [🎁 Offre gratuite](#-free-tier--how-much-you-get) · [🤖 Modèles](#-models--all-35-of-them) · [🧪 Utiliser l'API](#-how-to-use-the-api) · [✅ Vérifié](#-verified-working--every-key-is-tested) · [🧭 Comment ça marche](#-how-it-works) · [🔌 9Router](#-connect-to-9router) · [⚙️ Options](#️-cli-options) · [🛰️ Proxies](#️-behind-a-proxy) · [🐞 Problèmes](#-issues)
+[🛠 Démarrage rapide](#-quick-start) · [🎁 Offre gratuite](#-free-tier--how-much-you-get) · [🤖 Modèles](#-models--all-35-of-them) · [🧪 Utiliser l'API](#-how-to-use-the-api) · [✅ Vérifié](#-verified-working--every-key-is-tested) · [🧭 Comment ça marche](#-how-it-works) · [🔌 9Router](#-connect-to-9router) · [🔌 OmniRoute](#-connect-to-omniroute) · [⚙️ Options](#️-cli-options) · [🛰️ Proxys](#️-behind-a-proxy) · [🐞 Problèmes](#-issues)
 
 </div>
 
@@ -35,17 +35,17 @@
 
 ## ✨ Pourquoi cet outil existe
 
-DimiLinks est un panneau de la famille New API où le crédit d'inscription est **minuscule (5 000 unités ≈ 0,01 $)** et où le véritable argent se trouve dans le **check-in quotidien** : les comptes ont mesuré **+18k…+98k unités de quota par jour** (19 comptes actifs ont atterri entre 15 307 et 103 660 après leur premier check-in). Le panneau a **abandonné son groupe `default`** (`403 分组 default 已被弃用`) et ses canaux fonctionnels vivent dans la famille **`Open ai 特价`** — c'est exactement là que cet outil crée la clé et où la porte de vérification en direct exécute `gpt-6-sol`.
+DimiLinks est un panneau de la famille New API où le crédit d'inscription est **minuscule (5 000 unités ≈ 0,01 $)** et où le vrai argent se trouve dans le **check-in quotidien** : les comptes mesurés ont atteint **+18k…+98k unités de quota par jour** (19 comptes actifs ont atterri entre 15 307 et 103 660 après leur premier check-in). Le panneau a **abandonné son groupe `default`** (`403 分组 default 已被弃用`) et ses canaux fonctionnels vivent dans la famille **`Open ai 特价`** — c'est exactement là que cet outil crée la clé et où la porte de vérification en direct exécute `gpt-6-sol`.
 
-## 🎁 Offre gratuite — combien vous obtenez
+## 🎁 Offre gratuite — ce que vous obtenez
 
-**Le crédit est uniquement lié au check-in sur ce panneau :** un nouveau compte démarre avec 5 000 unités et le solde augmente grâce au check-in quotidien.
+**Le crédit est uniquement lié au check-in sur ce panneau :** un compte fraîchement créé démarre avec 5 000 unités et le solde augmente grâce au check-in quotidien.
 
 | Quoi | Valeur |
 | --- | --- |
 | Crédit d'inscription (`quotaStart`) | **5 000** unités (qpu=500 000 → ≈ 0,01 $ — considérez le crédit d'inscription comme négligeable) |
 | **Check-in quotidien** | **+18 000 … +98 000 unités/jour** (mesuré sur 19 comptes : quotaAfter 15 307…103 660) |
-| Groupe fonctionnel | **`Open ai 特价`** (+ les frères `Open ai 特价 pro`, `Open ai 特价 pro 不降智`) — `default` répond `403 分组 default 已被弃用` |
+| Groupe fonctionnel | **`Open ai 特价`** (+ les voisins `Open ai 特价 pro`, `Open ai 特价 pro 不降智`) — `default` répond `403 分组 default 已被弃用` |
 | Catalogue | 35 entrées de modèles sur la feuille de tarification en direct |
 | Inscription | e-mail + code à 6 caractères — **pas de captcha** (`turnstile_check: false`) |
 | L'unité qui compte | **un compte = une clé**, check-in effectué une fois avant que la clé ne soit conservée |
@@ -62,7 +62,7 @@ Le catalogue en direct contient **35 entrées de modèles** ; la ligne de clé v
 
 | ID du modèle | Groupe | Vérifié |
 | --- | --- | --- |
-| `gpt-6-sol` | `Open ai 特价` | **100/100 clés chat-200** pendant la création ; re-vérification indépendante **3/3** (`GET /v1/models` + complétion réelle) |
+| `gpt-6-sol` | `Open ai 特价` | **chaque clé, chat-200** pendant la création ; re-vérification indépendante **3/3** (`GET /v1/models` + complétion réelle) |
 
 ```bash
 curl https://dimilinks.com/v1/chat/completions \
@@ -93,20 +93,20 @@ node src/launcher.js        # interactive: mint / verify / screen / settings
 # or: node src/cli.js --count 30    (one account per key, check-in runs first)
 ```
 
-Une clé n'est écrite dans `keys.txt` **qu'après** que `/v1/chat/completions` ait répondu 200 avec du contenu réel ; `accounts.json` conserve username / e-mail / quotaStart → quotaAfterCheckin / groupe.
+Une clé n'est écrite dans `keys.txt` **qu'après** que `/v1/chat/completions` a répondu 200 avec du contenu réel ; `accounts.json` conserve username / e-mail / quotaStart → quotaAfterCheckin / group.
 
 ### 🖱️ Le lanceur
 
-Le lanceur demande la liste de proxies et le nombre, les mémorise, et exécute le CLI — création, vérification, test des sorties, paramètres, aide, connexion à 9Router.
+Le lanceur demande la liste de proxys et le nombre, les mémorise, puis exécute le CLI — création, vérification, test des sorties, paramètres, aide, connexion à 9Router.
 
-## ✅ Vérifié fonctionnel — chaque clé est testée
+## ✅ Vérifié et fonctionnel — chaque clé est testée
 
 | Vérification | Résultat |
 | --- | --- |
 | `GET /api/status` | **200** — inscription activée, vérification e-mail activée, captcha désactivé, check-in activé |
 | `POST /api/user/checkin` | **200** — le solde passe de 5 000 à 15k–104k (le crédit qui compte) |
-| `POST /api/token/` (+ révélation) dans `Open ai 特价` | **200** — le matériel de clé est renvoyé une fois (les groupes frères rattrapent les tirages à token vide) |
-| `POST /v1/chat/completions` (`gpt-6-sol`) — pour **chaque** clé avant son écriture | **200** avec du contenu réel — **100/100 clés** |
+| `POST /api/token/` (+ révélation) dans `Open ai 特价` | **200** — le matériel de clé est renvoyé une seule fois (les groupes voisins rattrapent les tirages à token vide) |
+| `POST /v1/chat/completions` (`gpt-6-sol`) — pour **chaque** clé avant son écriture | **200** avec du contenu réel — chaque clé |
 | re-vérification indépendante (sortie fraîche, échantillon) | **3/3** clés `GET /v1/models` 200 + complétion 200 |
 | une clé qui échoue à sa vérification de chat | jamais écrite — le compte reste dans `accounts.json` |
 
@@ -114,6 +114,12 @@ Le lanceur demande la liste de proxies et le nombre, les mémorise, et exécute 
 node src/cli.js --verify-only
 node src/cli.js --screen
 ```
+
+> **Contrôles qualité.** Chaque clé ici a passé un `chat-200` en direct avant d'être écrite dans `keys.txt`
+> (les clés mortes ne sont jamais livrées). Les combos du routeur suivent la même règle au niveau du modèle : une entrée n'est
+> ajoutée **que si le modèle répond `chat-200` et peut appeler des outils** — un modèle sans support des outils,
+> une clé morte ou un fournisseur mort est écarté plutôt qu'ajouté. Relancez l'étape de vérification à tout moment ;
+> les échecs sont signalés, jamais masqués.
 
 ## 🧭 Comment ça marche
 
@@ -126,15 +132,15 @@ inbox (one address per account)                                  a fresh address
    └─▶ live proof: POST https://dimilinks.com/v1/chat/completions → real content = the key is live
 ```
 
-| Étape | Appel | Notes |
+| Étape | Appel | Remarques |
 | --- | --- | --- |
-| statut | `GET /api/status` | portes inscription/e-mail/check-in (captcha désactivé) |
+| status | `GET /api/status` | portes inscription/e-mail/check-in (captcha désactivé) |
 | boîte mail | Emailnator `POST /api/generate-email` | Mailtrap a atteint sa limite de 300 boîtes ; gmail fonctionne partout |
-| envoi du code | `GET /api/verification?email=…` | code à 6 caractères depuis la boîte mail |
+| envoyer le code | `GET /api/verification?email=…` | code à 6 caractères depuis la boîte mail |
 | inscription | `POST /api/user/register` | e-mail + code + mot de passe |
 | connexion | `POST /api/user/login` | jeton de session |
-| **check-in** | `POST /api/user/checkin` | le bonus quotidien — c'est la véritable offre gratuite du panneau |
-| clé | `POST /api/token/` dans `Open ai 特价` (repli : frères pro) | les retours vides sur le groupe principal basculent vers les frères |
+| **check-in** | `POST /api/user/checkin` | le bonus quotidien — c'est la vraie offre gratuite du panneau |
+| clé | `POST /api/token/` dans `Open ai 特价` (repli : voisins pro) | les retours vides sur le groupe principal basculent vers les voisins |
 | preuve | `POST /v1/chat/completions` `gpt-6-sol` | 200 avec contenu = la clé est active |
 
 ## ⚙️ Options du CLI
@@ -158,7 +164,7 @@ node src/cli.js --help
 **Optionnel — recommandé à grande échelle (limites par IP, bannissements).** L'outil fonctionne aussi sans proxy.
 
 - **Avec un pool :** passez `--pool <file>` (ou définissez `DIMILINKS_PROXIES`) et chaque requête passe par une sortie de cette liste — une ligne morte fait échouer cette tentative et l'outil passe à la suivante (fail-closed tant qu'un pool est fourni ; le pool est re-testé à l'usage).
-- **Sans pool :** le CLI affiche `running WITHOUT a proxy (direct)` et se connecte directement. Rien ne change pour l'inscription, le check-in, la création de clé ou la vérification — seul le point de sortie des paquets change.
+- **Sans pool :** le CLI affiche `running WITHOUT a proxy (direct)` et se connecte directement. Rien ne change pour l'inscription, le check-in, la création de clé ou la vérification — seul le point de départ des paquets change.
 - Lancez `--screen` dans l'un ou l'autre mode : il teste les sorties dont vous disposez (ou la route directe) contre le fournisseur avant une exécution réelle.
 
 ## 📄 Fichiers
@@ -166,7 +172,7 @@ node src/cli.js --help
 | Chemin | Contenu |
 | --- | --- |
 | `keys.txt` | une clé vérifiée en direct par ligne — ignoré par git |
-| `accounts.json` | username / e-mail / quotaStart / quotaAfterCheckin / groupe |
+| `accounts.json` | username / e-mail / quotaStart / quotaAfterCheckin / group |
 | `proxies.txt` | vos sorties — ignoré par git |
 | `outputs/` | journaux d'exécution — ignorés par git |
 
@@ -178,7 +184,7 @@ node src/cli.js --help
 node src/connect-9router.js --base http://localhost:20128 --password 123456
 ```
 
-Valeurs par défaut : `--prefix dimilinks`, `--base-url https://dimilinks.com/v1`, `--model gpt-6-sol`. Les modèles sont servis sous `dimilinks/<model id>`.
+Défauts : `--prefix dimilinks`, `--base-url https://dimilinks.com/v1`, `--model gpt-6-sol`. Les modèles sont servis sous `dimilinks/<model id>`.
 
 ## 🔌 Connexion à OmniRoute
 
@@ -188,7 +194,8 @@ Valeurs par défaut : `--prefix dimilinks`, `--base-url https://dimilinks.com/v1
 node src/connect-omniroute.js --base http://localhost:20128 --password 123456
 ```
 
-Valeurs par défaut : `--prefix dimilinks`, `--base-url https://dimilinks.com/v1`, `--model gpt-6-sol`. Les modèles sont servis sous `dimilinks/<model id>`.
+Défauts : `--prefix dimilinks`, `--base-url https://dimilinks.com/v1`, `--model gpt-6-sol`. Les modèles sont servis sous `dimilinks/<model id>`.
+
 ## 🔑 Ce qu'une clé vous apporte
 
 | | |

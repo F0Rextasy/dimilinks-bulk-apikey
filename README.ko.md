@@ -21,7 +21,7 @@
 [![OmniRoute](https://img.shields.io/badge/OmniRoute-connector-8B5CF6?style=for-the-badge)](#-connect-to-omniroute)
 [![X](https://img.shields.io/badge/X-%40bigbullapp-000000?style=for-the-badge&logo=x&logoColor=white)](https://x.com/bigbullapp)
 
-[🛠 빠른 시작](#-quick-start) · [🎁 무료 티어](#-free-tier--how-much-you-get) · [🤖 모델](#-models--all-35-of-them) · [🧪 API 사용하기](#-how-to-use-the-api) · [✅ 검증됨](#-verified-working--every-key-is-tested) · [🧭 작동 방식](#-how-it-works) · [🔌 9Router](#-connect-to-9router) · [⚙️ 옵션](#️-cli-options) · [🛰️ 프록시](#️-behind-a-proxy) · [🐞 이슈](#-issues)
+[🛠 빠른 시작](#-quick-start) · [🎁 무료 티어](#-free-tier--how-much-you-get) · [🤖 모델](#-models--all-35-of-them) · [🧪 API 사용하기](#-how-to-use-the-api) · [✅ 검증됨](#-verified-working--every-key-is-tested) · [🧭 작동 방식](#-how-it-works) · [🔌 9Router](#-connect-to-9router) · [🔌 OmniRoute](#-connect-to-omniroute) · [⚙️ 옵션](#️-cli-options) · [🛰️ 프록시](#️-behind-a-proxy) · [🐞 이슈](#-issues)
 
 </div>
 
@@ -33,24 +33,24 @@
 
 ---
 
-## ✨ 왜 만들었나
+## ✨ 이 도구가 존재하는 이유
 
-DimiLinks는 New API 계열 패널로, 가입 크레딧은 **매우 작고 (5,000 단위 ≈ $0.01)**, 실제 수익은 **일일 출석 체크**에서 나옵니다: 계정당 **하루 +18k…+98k 할당량 단위**가 측정되었습니다 (활성 계정 19개가 첫 출석 체크 후 15,307에서 103,660 사이에 도달했습니다). 이 패널은 **`default` 그룹을 폐기했으며** (`403 分组 default 已被弃用`), 작동하는 채널은 **`Open ai 特价`** 계열에 있습니다 — 이 도구가 키를 생성하고 라이브 게이트가 `gpt-6-sol`을 실행하는 곳이 바로 여기입니다.
+DimiLinks는 가입 크레딧이 **매우 작고(5,000 단위 ≈ $0.01)** 실제 수익은 **일일 출석 체크**에서 나오는 New API 계열 패널입니다: 계정당 **하루 +18k…+98k 할당량 단위**가 측정되었습니다(활성 계정 19개가 첫 출석 체크 후 15,307에서 103,660 사이를 기록했습니다). 이 패널은 **`default` 그룹을 폐기했으며**(`403 分组 default 已被弃用`) 작동하는 채널은 **`Open ai 特价`** 계열에 있습니다 — 이 도구가 키를 생성하고 실제 게이트가 `gpt-6-sol`을 실행하는 곳이 바로 여기입니다.
 
 ## 🎁 무료 티어 — 얼마나 받을 수 있나
 
-**이 패널에서 크레딧은 출석 체크로만 얻습니다:** 새 계정은 5,000 단위로 시작하고 잔액은 일일 출석 체크로 늘어납니다.
+**이 패널에서 크레딧은 출석 체크로만 얻을 수 있습니다:** 새 계정은 5,000 단위로 시작하고 잔액은 일일 출석 체크로 늘어납니다.
 
 | 항목 | 값 |
 | --- | --- |
 | 가입 크레딧 (`quotaStart`) | **5,000** 단위 (qpu=500,000 → ≈ $0.01 — 가입 크레딧은 무시하세요) |
-| **일일 출석 체크** | **하루 +18,000 … +98,000 단위** (계정 19개에서 측정: quotaAfter 15,307…103,660) |
-| 작동 그룹 | **`Open ai 特价`** (+ 형제 그룹 `Open ai 特价 pro`, `Open ai 特价 pro 不降智`) — `default`는 `403 分组 default 已被弃用` 응답 |
-| 카탈로그 | 라이브 가격표에 35개 모델 항목 |
+| **일일 출석 체크** | **하루 +18,000 … +98,000 단위** (계정 19개 측정: quotaAfter 15,307…103,660) |
+| 작동 그룹 | **`Open ai 特价`** (+ 형제 그룹 `Open ai 特价 pro`, `Open ai 特价 pro 不降智`) — `default`는 `403 分组 default 已被弃用`로 응답 |
+| 카탈로그 | 실제 가격표에 35개 모델 항목 |
 | 가입 | 이메일 + 6자리 코드 — **캡차 없음** (`turnstile_check: false`) |
 | 확장되는 단위 | **계정 하나 = 키 하나**, 키를 보관하기 전에 한 번 출석 체크 |
 
-> 💡 무료 티어는 DimiLinks가 정하며 변경될 수 있습니다. [dimilinks.com](https://dimilinks.com)에서 실시간 수치를 확인하세요 — 그리고 도구 자체의 게이트가 판단하게 하세요:
+> 💡 무료 티어는 DimiLinks가 정하며 변경될 수 있습니다. 실제 수치는 [dimilinks.com](https://dimilinks.com)에서 확인하세요 — 그리고 도구 자체의 게이트가 판단하게 하세요:
 
 ```bash
 node src/cli.js --verify-only     # every key in keys.txt is re-tested with a real chat call
@@ -58,11 +58,11 @@ node src/cli.js --verify-only     # every key in keys.txt is re-tested with a re
 
 ## 🤖 모델 — 35개 전부
 
-라이브 카탈로그에는 **35개 모델 항목**이 있습니다; 검증된 키 라인은 `gpt-6-sol`이며, `Open ai 特价` 그룹 계열을 통해 라우팅됩니다:
+실제 카탈로그에는 **35개 모델 항목**이 있으며, 검증된 키 라인은 `Open ai 特价` 그룹 계열을 통해 라우팅되는 `gpt-6-sol`입니다:
 
 | 모델 ID | 그룹 | 검증됨 |
 | --- | --- | --- |
-| `gpt-6-sol` | `Open ai 特价` | 생성 중 **100/100 키 chat-200**; 독립 재확인 **3/3** (`GET /v1/models` + 실제 완성) |
+| `gpt-6-sol` | `Open ai 特价` | **모든 키, 생성 중 chat-200**; 독립 재확인 **3/3** (`GET /v1/models` + 실제 완성) |
 
 ```bash
 curl https://dimilinks.com/v1/chat/completions \
@@ -70,7 +70,7 @@ curl https://dimilinks.com/v1/chat/completions \
   -d '{"model":"gpt-6-sol","messages":[{"role":"user","content":"hi"}],"max_tokens":8}'
 ```
 
-## 🧪 API 사용 방법
+## 🧪 API 사용하기
 
 Base URL **`https://dimilinks.com/v1`** — OpenAI 호환.
 
@@ -97,7 +97,7 @@ node src/launcher.js        # interactive: mint / verify / screen / settings
 
 ### 🖱️ 런처
 
-런처는 프록시 목록과 개수를 묻고, 이를 기억한 뒤 CLI를 실행합니다 — 생성, 검증, 출구 스크린, 설정, 도움말, 9Router 연결.
+런처는 프록시 목록과 개수를 묻고, 이를 기억한 뒤 CLI를 실행합니다 — mint, verify, screen exits, settings, help, Connect to 9Router.
 
 ## ✅ 검증됨 — 모든 키가 테스트됩니다
 
@@ -105,15 +105,21 @@ node src/launcher.js        # interactive: mint / verify / screen / settings
 | --- | --- |
 | `GET /api/status` | **200** — 가입 켜짐, 이메일 인증 켜짐, 캡차 꺼짐, 출석 체크 켜짐 |
 | `POST /api/user/checkin` | **200** — 잔액이 5,000에서 15k–104k로 이동 (중요한 크레딧) |
-| `Open ai 特价`에서 `POST /api/token/` (+ 공개) | **200** — 키 자료가 한 번 반환됨 (형제 그룹이 빈 토큰 롤을 잡음) |
-| `POST /v1/chat/completions` (`gpt-6-sol`) — 기록되기 전 **모든** 키에 대해 | 실제 콘텐츠와 함께 **200** — **100/100 키** |
-| 독립 재확인 (새 출구, 샘플) | **3/3** 키 `GET /v1/models` 200 + 완성 200 |
+| `Open ai 特价`에서 `POST /api/token/` (+ reveal) | **200** — 키 자료가 한 번 반환됨 (형제 그룹이 빈 토큰 롤을 처리) |
+| `POST /v1/chat/completions` (`gpt-6-sol`) — 기록되기 전 **모든** 키에 대해 | 실제 콘텐츠와 함께 **200** — 모든 키 |
+| 독립 재확인 (새 exit, 샘플) | **3/3** 키 `GET /v1/models` 200 + 완성 200 |
 | 채팅 검사에 실패한 키 | 기록되지 않음 — 계정은 `accounts.json`에 남음 |
 
 ```bash
 node src/cli.js --verify-only
 node src/cli.js --screen
 ```
+
+> **품질 게이트.** 여기의 모든 키는 `keys.txt`에 기록되기 전에 실제 `chat-200`을 통과했습니다
+> (죽은 키는 절대 배포되지 않습니다). 라우터 조합도 모델 수준에서 동일한 규칙을 따릅니다: 항목은
+> **모델이 `chat-200`을 응답하고 도구를 호출할 수 있는 경우에만** 추가됩니다 — 도구 지원이 없는 모델,
+> 죽은 키 또는 죽은 제공자는 추가되지 않고 제거됩니다. 언제든지 검증 단계를 다시 실행하세요;
+> 실패는 보고되며 절대 숨겨지지 않습니다.
 
 ## 🧭 작동 방식
 
@@ -128,14 +134,14 @@ inbox (one address per account)                                  a fresh address
 
 | 단계 | 호출 | 비고 |
 | --- | --- | --- |
-| 상태 | `GET /api/status` | 가입/이메일/출석 체크 게이트 (캡차 꺼짐) |
-| 메일함 | Emailnator `POST /api/generate-email` | Mailtrap은 300개 inbox 플릿 한도에 도달; gmail은 어디서나 작동 |
-| 코드 전송 | `GET /api/verification?email=…` | 메일함에서 온 6자리 코드 |
+| status | `GET /api/status` | 가입/이메일/출석 체크 게이트 (캡차 꺼짐) |
+| mailbox | Emailnator `POST /api/generate-email` | Mailtrap은 300개 inbox 플릿 한도에 도달; gmail은 어디서나 작동 |
+| 코드 전송 | `GET /api/verification?email=…` | inbox에서 온 6자리 코드 |
 | 가입 | `POST /api/user/register` | 이메일 + 코드 + 비밀번호 |
 | 로그인 | `POST /api/user/login` | 세션 토큰 |
 | **출석 체크** | `POST /api/user/checkin` | 일일 보너스 — 이것이 패널의 실제 무료 티어 |
 | 키 | `Open ai 特价`에서 `POST /api/token/` (대체: pro 형제) | 기본 그룹의 빈 반환은 형제로 넘어감 |
-| 증명 | `POST /v1/chat/completions` `gpt-6-sol` | 콘텐츠와 함께 200 = 키가 라이브 |
+| 증명 | `POST /v1/chat/completions` `gpt-6-sol` | 콘텐츠와 함께 200 = 키가 살아 있음 |
 
 ## ⚙️ CLI 옵션
 
@@ -150,25 +156,25 @@ node src/cli.js --help
 
 | 환경 변수 | 기본값 | 의미 |
 | --- | --- | --- |
-| `DIMILINKS_PROXIES` | `proxies.txt` | 출구 풀, 프록시당 한 줄 |
-| `DIMILINKS_MODEL` | `gpt-6-sol` | 라이브 검증에 사용할 모델 |
+| `DIMILINKS_PROXIES` | `proxies.txt` | exit 풀, 프록시당 한 줄 |
+| `DIMILINKS_MODEL` | `gpt-6-sol` | 실제 검증에 사용할 모델 |
 
 ## 🛰️ 프록시 뒤에서
 
 **선택 사항 — 대규모에서는 권장 (IP당 제한, 차단).** 이 도구는 프록시 없이도 작동합니다.
 
-- **풀 사용 시:** `--pool <file>`을 전달하거나 (또는 `DIMILINKS_PROXIES` 설정) 모든 요청이 해당 목록의 출구를 통해 나갑니다 — 죽은 라인은 해당 시도를 실패시키고 도구는 다음으로 넘어갑니다 (풀이 제공되면 fail-closed; 풀은 사용 시 재탐색됩니다).
+- **풀 사용 시:** `--pool <file>`을 전달하거나(또는 `DIMILINKS_PROXIES` 설정) 모든 요청이 해당 목록의 exit를 통해 나갑니다 — 죽은 라인은 해당 시도를 실패시키고 도구는 다음으로 넘어갑니다(풀이 제공되면 fail-closed; 풀은 사용 시점에 다시 프로브됨).
 - **풀 없이:** CLI는 `running WITHOUT a proxy (direct)`를 출력하고 직접 연결합니다. 가입, 출석 체크, 키 생성 또는 검증에 대해 달라지는 것은 없습니다 — 패킷이 나가는 위치만 다릅니다.
-- 어느 모드에서든 `--screen`을 실행하세요: 실제 실행 전에 보유한 출구 (또는 직접 경로)를 제공자에 대해 테스트합니다.
+- 두 모드 모두에 대해 `--screen`을 실행하세요: 실제 실행 전에 보유한 exit(또는 직접 경로)를 제공자에 대해 테스트합니다.
 
 ## 📄 파일
 
 | 경로 | 내용 |
 | --- | --- |
-| `keys.txt` | 라이브 검증된 키가 한 줄에 하나씩 — git 무시됨 |
+| `keys.txt` | 한 줄에 하나의 실제 검증된 키 — git-ignored |
 | `accounts.json` | username / e-mail / quotaStart / quotaAfterCheckin / group |
-| `proxies.txt` | 출구 — git 무시됨 |
-| `outputs/` | 실행 로그 — git 무시됨 |
+| `proxies.txt` | 사용자의 exit — git-ignored |
+| `outputs/` | 실행 로그 — git-ignored |
 
 ## 🔌 9Router에 연결
 
@@ -189,15 +195,16 @@ node src/connect-omniroute.js --base http://localhost:20128 --password 123456
 ```
 
 기본값: `--prefix dimilinks`, `--base-url https://dimilinks.com/v1`, `--model gpt-6-sol`. 모델은 `dimilinks/<model id>`로 제공됩니다.
+
 ## 🔑 키 하나로 얻는 것
 
 | | |
 | --- | --- |
 | 🏢 제공자 | **DimiLinks** — [dimilinks.com](https://dimilinks.com) |
 | 🎁 제공자가 주는 것 | 출석 체크 크레딧: 계정당 **하루 +18k…+98k 단위** |
-| 🔑 키 하나로 얻는 것 | 자체 계정의 키 하나, `Open ai 特价`에서 생성, `gpt-6-sol`에서 채팅 검증됨 |
+| 🔑 키 하나로 얻는 것 | 자체 계정에 있는 키 하나, `Open ai 特价`에서 생성, `gpt-6-sol`에서 채팅 검증됨 |
 | 🌐 API 형태 | OpenAI 호환: `POST https://dimilinks.com/v1/chat/completions` |
-| 🔒 데이터 | `dimilinks.com`과 메일함 백엔드만 접촉됨 |
+| 🔒 데이터 | `dimilinks.com`과 사용자의 inbox 백엔드만 접촉됨 |
 
 ## 🐞 이슈
 

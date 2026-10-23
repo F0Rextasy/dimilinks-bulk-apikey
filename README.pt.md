@@ -21,7 +21,7 @@
 [![OmniRoute](https://img.shields.io/badge/OmniRoute-connector-8B5CF6?style=for-the-badge)](#-connect-to-omniroute)
 [![X](https://img.shields.io/badge/X-%40bigbullapp-000000?style=for-the-badge&logo=x&logoColor=white)](https://x.com/bigbullapp)
 
-[🛠 Início rápido](#-quick-start) · [🎁 Nível gratuito](#-free-tier--how-much-you-get) · [🤖 Modelos](#-models--all-35-of-them) · [🧪 Use a API](#-how-to-use-the-api) · [✅ Verificado](#-verified-working--every-key-is-tested) · [🧭 Como funciona](#-how-it-works) · [🔌 9Router](#-connect-to-9router) · [⚙️ Opções](#️-cli-options) · [🛰️ Proxies](#️-behind-a-proxy) · [🐞 Problemas](#-issues)
+[🛠 Início rápido](#-quick-start) · [🎁 Nível gratuito](#-free-tier--how-much-you-get) · [🤖 Modelos](#-models--all-35-of-them) · [🧪 Use a API](#-how-to-use-the-api) · [✅ Verificado](#-verified-working--every-key-is-tested) · [🧭 Como funciona](#-how-it-works) · [🔌 9Router](#-connect-to-9router) · [🔌 OmniRoute](#-connect-to-omniroute) · [⚙️ Opções](#️-cli-options) · [🛰️ Proxies](#️-behind-a-proxy) · [🐞 Problemas](#-issues)
 
 </div>
 
@@ -35,11 +35,11 @@
 
 ## ✨ Por que isso existe
 
-DimiLinks é um painel da família New API onde o crédito de registro é **minúsculo (5.000 unidades ≈ US$ 0,01)** e o dinheiro de verdade está no **check-in diário**: contas mediram **+18k…+98k unidades de cota por dia** (19 contas ativas ficaram entre 15.307 e 103.660 após o primeiro check-in). O painel **abandonou seu grupo `default`** (`403 分组 default 已被弃用`) e seus canais funcionais vivem na família **`Open ai 特价`** — que é exatamente onde esta ferramenta cria a chave e onde o gate ativo executa `gpt-6-sol`.
+DimiLinks é um painel da família New API onde o crédito de registro é **minúsculo (5.000 unidades ≈ US$ 0,01)** e o dinheiro de verdade é o **check-in diário**: contas mediram **+18k…+98k unidades de cota por dia** (19 contas ativas ficaram entre 15.307 e 103.660 após o primeiro check-in). O painel **abandonou seu grupo `default`** (`403 分组 default 已被弃用`) e seus canais funcionais vivem na família **`Open ai 特价`** — que é exatamente onde esta ferramenta cria a chave e onde o gate ativo executa `gpt-6-sol`.
 
 ## 🎁 Nível gratuito — quanto você recebe
 
-**O crédito é somente via check-in neste painel:** uma conta nova começa com 5.000 unidades e o saldo cresce com o check-in diário.
+**O crédito neste painel vem apenas do check-in:** uma conta nova começa com 5.000 unidades e o saldo cresce com o check-in diário.
 
 | O quê | Valor |
 | --- | --- |
@@ -62,7 +62,7 @@ O catálogo ativo contém **35 entradas de modelos**; a linha de chave verificad
 
 | ID do modelo | Grupo | Verificado |
 | --- | --- | --- |
-| `gpt-6-sol` | `Open ai 特价` | **100/100 chaves chat-200** durante a criação; reverificação independente **3/3** (`GET /v1/models` + conclusão real) |
+| `gpt-6-sol` | `Open ai 特价` | **toda chave, chat-200** durante a criação; reverificação independente **3/3** (`GET /v1/models` + conclusão real) |
 
 ```bash
 curl https://dimilinks.com/v1/chat/completions \
@@ -104,16 +104,22 @@ O launcher pede a lista de proxies e a quantidade, memoriza-os e executa a CLI �
 | Verificação | Resultado |
 | --- | --- |
 | `GET /api/status` | **200** — registro ativo, verificação por e-mail ativa, captcha desativado, check-in ativo |
-| `POST /api/user/checkin` | **200** — saldo passa de 5.000 para 15k–104k (o crédito que importa) |
-| `POST /api/token/` (+ reveal) em `Open ai 特价` | **200** — material da chave retornado uma vez (grupos irmãos capturam os retornos de token vazio) |
-| `POST /v1/chat/completions` (`gpt-6-sol`) — para **toda** chave antes de ser gravada | **200** com conteúdo real — **100/100 chaves** |
+| `POST /api/user/checkin` | **200** — o saldo vai de 5.000 para 15k–104k (o crédito que importa) |
+| `POST /api/token/` (+ reveal) em `Open ai 特价` | **200** — o material da chave é retornado uma vez (grupos irmãos capturam os retornos de token vazio) |
+| `POST /v1/chat/completions` (`gpt-6-sol`) — para **toda** chave antes de ser gravada | **200** com conteúdo real — toda chave |
 | reverificação independente (saída nova, amostra) | **3/3** chaves `GET /v1/models` 200 + conclusão 200 |
-| uma chave que falha na verificação de chat | nunca gravada — a conta permanece em `accounts.json` |
+| uma chave que falha na verificação de chat | nunca é gravada — a conta permanece em `accounts.json` |
 
 ```bash
 node src/cli.js --verify-only
 node src/cli.js --screen
 ```
+
+> **Portões de qualidade.** Toda chave aqui passou por um `chat-200` ativo antes de ser gravada em `keys.txt`
+> (chaves mortas nunca são entregues). As combinações de roteadores seguem a mesma regra no nível do modelo: uma entrada é
+> adicionada **somente se o modelo responder `chat-200` e conseguir chamar ferramentas** — um modelo sem suporte a ferramentas,
+> uma chave morta ou um provedor morto é descartado em vez de adicionado. Reexecute a etapa de verificação a qualquer momento;
+> as falhas são reportadas, nunca escondidas.
 
 ## 🧭 Como funciona
 
@@ -128,8 +134,8 @@ inbox (one address per account)                                  a fresh address
 
 | Etapa | Chamada | Observações |
 | --- | --- | --- |
-| status | `GET /api/status` | gates de registro/e-mail/check-in (captcha desativado) |
-| caixa de correio | Emailnator `POST /api/generate-email` | Mailtrap atingiu seu limite de 300 caixas; gmail funciona em todos os lugares |
+| status | `GET /api/status` | portões de registro/e-mail/check-in (captcha desativado) |
+| caixa de entrada | Emailnator `POST /api/generate-email` | Mailtrap atingiu seu limite de frota de 300 caixas; gmail funciona em qualquer lugar |
 | enviar código | `GET /api/verification?email=…` | código de 6 caracteres da caixa de entrada |
 | registrar | `POST /api/user/register` | e-mail + código + senha |
 | login | `POST /api/user/login` | token de sessão |
@@ -155,9 +161,9 @@ node src/cli.js --help
 
 ## 🛰️ Atrás de um proxy
 
-**Opcional — recomendado em escala (limites por IP, banimentos).** A ferramenta funciona sem proxy também.
+**Opcional — recomendado em escala (limites por IP, banimentos).** A ferramenta também funciona sem proxy.
 
-- **Com um pool:** passe `--pool <file>` (ou defina `DIMILINKS_PROXIES`) e toda requisição passa por uma saída dessa lista — uma linha morta falha naquela tentativa e a ferramenta passa para a próxima (fail-closed enquanto um pool é fornecido; o pool é re-testado no uso).
+- **Com um pool:** passe `--pool <file>` (ou defina `DIMILINKS_PROXIES`) e toda requisição passa por uma saída dessa lista — uma linha morta faz aquela tentativa falhar e a ferramenta passa para a próxima (fail-closed enquanto um pool é fornecido; o pool é re-testado no uso).
 - **Sem um pool:** a CLI imprime `running WITHOUT a proxy (direct)` e conecta diretamente. Nada sobre cadastro, check-in, criação de chave ou verificação muda — apenas de onde os pacotes saem.
 - Execute `--screen` em qualquer um dos modos: ele testa as saídas que você tem (ou a rota direta) contra o provedor antes de uma execução real.
 
@@ -165,7 +171,7 @@ node src/cli.js --help
 
 | Caminho | Conteúdo |
 | --- | --- |
-| `keys.txt` | uma chave verificada em produção por linha — ignorado pelo git |
+| `keys.txt` | uma chave verificada ativa por linha — ignorado pelo git |
 | `accounts.json` | username / e-mail / quotaStart / quotaAfterCheckin / group |
 | `proxies.txt` | suas saídas — ignorado pelo git |
 | `outputs/` | logs de execução — ignorado pelo git |
@@ -189,6 +195,7 @@ node src/connect-omniroute.js --base http://localhost:20128 --password 123456
 ```
 
 Padrões: `--prefix dimilinks`, `--base-url https://dimilinks.com/v1`, `--model gpt-6-sol`. Os modelos são servidos como `dimilinks/<model id>`.
+
 ## 🔑 O que uma chave oferece
 
 | | |
@@ -201,7 +208,7 @@ Padrões: `--prefix dimilinks`, `--base-url https://dimilinks.com/v1`, `--model 
 
 ## 🐞 Problemas
 
-Se a DimiLinks mudar seus grupos, a recompensa de check-in ou os gates de registro, a ferramenta para ali e avisa. **[Abra uma issue](../../issues)** com o comando e a saída exata.
+Se a DimiLinks mudar seus grupos, a recompensa de check-in ou os portões de registro, a ferramenta para ali e avisa. **[Abra uma issue](../../issues)** com o comando e a saída exata.
 
 ## 📄 Licença
 

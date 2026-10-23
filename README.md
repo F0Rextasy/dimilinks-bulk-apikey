@@ -21,7 +21,7 @@
 [![OmniRoute](https://img.shields.io/badge/OmniRoute-connector-8B5CF6?style=for-the-badge)](#-connect-to-omniroute)
 [![X](https://img.shields.io/badge/X-%40bigbullapp-000000?style=for-the-badge&logo=x&logoColor=white)](https://x.com/bigbullapp)
 
-[🛠 Quick start](#-quick-start) · [🎁 Free tier](#-free-tier--how-much-you-get) · [🤖 Models](#-models--all-35-of-them) · [🧪 Use the API](#-how-to-use-the-api) · [✅ Verified](#-verified-working--every-key-is-tested) · [🧭 How it works](#-how-it-works) · [🔌 9Router](#-connect-to-9router) · [⚙️ Options](#️-cli-options) · [🛰️ Proxies](#️-behind-a-proxy) · [🐞 Issues](#-issues)
+[🛠 Quick start](#-quick-start) · [🎁 Free tier](#-free-tier--how-much-you-get) · [🤖 Models](#-models--all-35-of-them) · [🧪 Use the API](#-how-to-use-the-api) · [✅ Verified](#-verified-working--every-key-is-tested) · [🧭 How it works](#-how-it-works) · [🔌 9Router](#-connect-to-9router) · [🔌 OmniRoute](#-connect-to-omniroute) · [⚙️ Options](#️-cli-options) · [🛰️ Proxies](#️-behind-a-proxy) · [🐞 Issues](#-issues)
 
 </div>
 
@@ -62,7 +62,7 @@ The live catalogue carries **35 model entries**; the verified key line is `gpt-6
 
 | Model ID | Group | Verified |
 | --- | --- | --- |
-| `gpt-6-sol` | `Open ai 特价` | **chat-200** during the mint; independent re-check (proxy exit) (`GET /v1/models` + real completion) |
+| `gpt-6-sol` | `Open ai 特价` | **every key, chat-200** during the mint; independent re-check **3/3** (`GET /v1/models` + real completion) |
 
 ```bash
 curl https://dimilinks.com/v1/chat/completions \
@@ -100,17 +100,12 @@ The launcher asks for the proxy list and count, remembers them, and runs the CLI
 
 ## ✅ Verified working — every key is tested
 
-> **Quality gates.** Every key here passed a live `chat-200` before it was written to `keys.txt`
-> (dead keys are never shipped). Router combos follow the same rule at the model level: an entry is
-> added **only if the model answers `chat-200` and can call tools** — a model without tool support,
-> a dead key or a dead provider is dropped instead of added. Works with **9Router and OmniRoute**.
-
 | Check | Result |
 | --- | --- |
 | `GET /api/status` | **200** — register on, e-mail verification on, captcha off, check-in on |
 | `POST /api/user/checkin` | **200** — balance moves from 5,000 to 15k–104k (the credit that matters) |
 | `POST /api/token/` (+ reveal) in `Open ai 特价` | **200** — key material returned once (sibling groups catch the empty-token rolls) |
-| `POST /v1/chat/completions` (`gpt-6-sol`) — for **every** key before it is written | **200** with real content — **verified** |
+| `POST /v1/chat/completions` (`gpt-6-sol`) — for **every** key before it is written | **200** with real content — every key |
 | independent re-check (fresh exit, sample) | **3/3** keys `GET /v1/models` 200 + completion 200 |
 | a key that fails its chat check | never written — account stays in `accounts.json` |
 
@@ -118,6 +113,12 @@ The launcher asks for the proxy list and count, remembers them, and runs the CLI
 node src/cli.js --verify-only
 node src/cli.js --screen
 ```
+
+> **Quality gates.** Every key here passed a live `chat-200` before it was written to `keys.txt`
+> (dead keys are never shipped). Router combos follow the same rule at the model level: an entry is
+> added **only if the model answers `chat-200` and can call tools** — a model without tool support,
+> a dead key or a dead provider is dropped instead of added. Re-run the verify step any time;
+> failures are reported, never hidden.
 
 ## 🧭 How it works
 
@@ -193,6 +194,7 @@ node src/connect-omniroute.js --base http://localhost:20128 --password 123456
 ```
 
 Defaults: `--prefix dimilinks`, `--base-url https://dimilinks.com/v1`, `--model gpt-6-sol`. Models are served as `dimilinks/<model id>`.
+
 ## 🔑 What one key gets you
 
 | | |
