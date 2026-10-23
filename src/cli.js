@@ -59,6 +59,20 @@ const ROOT = path.basename(__dirname) === 'src' ? path.resolve(__dirname, '..') 
 const KEYS_FILE = path.join(ROOT, 'keys.txt');
 const ACCOUNTS_FILE = path.join(ROOT, 'accounts.json');
 const OUT_DIR = path.join(ROOT, 'out');
+/** Dead keys leave keys.txt and are parked here — repo root, like keys.txt. */
+const KEYS_DEAD_FILE = path.join(ROOT, 'keys-dead.txt');
+/**
+ * A verdict only a dead key can answer — no exit, retry or model id changes it.
+ * 0 (transport), 429 and 5xx are excluded on purpose.
+ */
+const deadVerdict = (status, ok) => !ok && status !== 0 && status !== 429 && status < 500;
+/** key<TAB>reason<TAB>ISO date, one line per dead key, parked next to keys.txt. */
+function recordDeadKey(key, reason) {
+  try {
+    fs.mkdirSync(ROOT, { recursive: true });
+    fs.appendFileSync(KEYS_DEAD_FILE, `${key}\t${String(reason).replace(/\s+/g, ' ').slice(0, 100)}\t${new Date().toISOString()}\n`);
+  } catch (e) { /* diagnostics must never break the run */ }
+}
 
 const BASE = 'https://dimilinks.com';
 const EMAILNATOR = 'https://www.emailnator.com';
@@ -433,6 +447,7 @@ async function mint() {
             if (!rec.key) { lastErr = new Error('no key material in the token response'); continue; }
             const g = await chatGate(exit, rec.key);
             if (!g.ok) {
+              if (deadVerdict(g.status, g.ok)) recordDeadKey(rec.key, `chat gate ${g.status}`);
               lastErr = new Error(`chat gate ${g.status}: ${g.sample}`);
               accounts.push({ at: new Date().toISOString(), username: rec.username, email: rec.box.plain, exit: exit ? `${exit.host}:${exit.port}` : 'direct', gate: g.status });
               saveAccounts(accounts);
@@ -465,6 +480,7 @@ async function verifyOnly() {
     try {
       const g = await chatGate(exit, keys[i]);
       if (g.ok) live++;
+      else if (deadVerdict(g.status, g.ok)) recordDeadKey(keys[i], `chat gate ${g.status}`);
       console.log(`  ${g.ok ? '✔' : '✘'} ${keys[i].slice(0, 8)}… chat=${g.status}`);
     } catch (e) {
       console.log(`  ✘ ${keys[i].slice(0, 8)}… ${String(e.message).slice(0, 90)}`);
