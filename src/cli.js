@@ -312,8 +312,25 @@ async function newMailbox(exit) {
   return { rail: 'emailnator', dotted, plain: `${local.replace(/\./g, '')}@${domain}` };
 }
 
-async function pollCode(exit, box, { timeoutMs = 180000, pollMs = 5000 } = {}) {
-  const seen = new Set();
+/**
+ * Ids already in the box, taken BEFORE the code is requested. Emailnator hands
+ * out PUBLIC shared boxes: a mail that was already there belongs to another
+ * tenant, and its code comes back as "incorrect or expired". A failed snapshot
+ * is not an empty box — it retries, then throws.
+ */
+async function inboxIds(exit, plain) {
+  for (let k = 0; k < 4; k++) {
+    try {
+      const r = await exitJson(exit, `${EMAILNATOR}/api/message-list`, { method: 'POST', body: { email: plain, limit: 20 } });
+      const msgs = r.json && r.json.messages;
+      if (Array.isArray(msgs)) return new Set(msgs.map((m) => String((m && m.id) || '')).filter(Boolean));
+    } catch (e) { /* retry */ }
+    await sleep(4000);
+  }
+  throw new Error('inbox snapshot failed (exits unhealthy)');
+}
+async function pollCode(exit, box, { timeoutMs = 180000, pollMs = 5000 , seenIds = [] } = {}) {
+  const seen = new Set(seenIds instanceof Set ? seenIds : (seenIds || []).map(String));
   const deadline = Date.now() + timeoutMs;
   while (Date.now() < deadline) {
     let msgs = [];
@@ -325,7 +342,7 @@ async function pollCode(exit, box, { timeoutMs = 180000, pollMs = 5000 } = {}) {
       if (seen.has(m.id)) continue;
       seen.add(m.id);
       const r = await exitJson(exit, `${EMAILNATOR}/api/message/${encodeURIComponent(m.id)}`).catch(() => null);
-      const text = r ? r.body : '';
+      const text = r ? String(r.text || '') : ''; // exitJson returns {status,json,text} — `.body` is undefined (crash measured 2026-10-24, lane FixCodeErrors)
       const code = (text.match(/(?:code|verification|验证码|kodu)[^\d]{0,24}(\d{4,8})/i) || text.match(/\b(\d{6})\b/));
       if (code) return { code: code[1], subject: m.subject || '' };
     }
@@ -349,9 +366,11 @@ async function signUp(exit) {
   const gates = (st.json && st.json.data) || {};
   if (gates.register_enabled === false) throw new Error('register is disabled on the panel right now');
   const box = await newMailbox(exit);
+  // Shared box: snapshot the ids BEFORE the code is asked for.
+  const seenIds = await inboxIds(exit, box.plain);
   const sc = await exitJson(exit, `${BASE}/api/verification?email=${encodeURIComponent(box.plain)}`);
   if (!(sc.json && sc.json.success)) throw new Error(`sendCode HTTP ${sc.status}: ${String(sc.text).slice(0, 140)}`);
-  const { code, subject } = await pollCode(exit, box);
+  const { code, subject } = await pollCode(exit, box, { seenIds });
   const reg = await exitJson(exit, `${BASE}/api/user/register`, {
     method: 'POST',
     body: { username, password, email: box.plain, verification_code: code },
@@ -432,7 +451,7 @@ async function mint() {
   const exits = loadExits();
   if (SCREEN) return void (await screen(exits));
   const accounts = loadAccounts();
-  log(`weytoken · ${COUNT} key(s) · conc ${CONC} · exits ${exits.filter(Boolean).length || 'direct'} · keys land in keys.txt`);
+  log(`dimilinks · ${COUNT} key(s) · conc ${CONC} · exits ${exits.filter(Boolean).length || 'direct'} · keys land in keys.txt`);
   let made = 0;
   for (let round = 0; round < COUNT; round += CONC) {
     const jobs = [];
